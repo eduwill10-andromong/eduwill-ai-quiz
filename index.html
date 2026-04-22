@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 리터러시 테스트</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --card: #13131f;
+    --accent: #7c3aed;
+    --accent2: #f59e0b;
+    --accent3: #10b981;
+    --text: #f0f0ff;
+    --muted: #6b6b8a;
+    --border: #2a2a45;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at 20% 20%, #7c3aed22 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, #f59e0b11 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 40px 0 32px;
+  }
+
+  .header .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .header h1 {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(28px, 8vw, 42px);
+    line-height: 1.1;
+    background: linear-gradient(135deg, #fff 30%, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+
+  .header p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Progress */
+  .progress-wrap {
+    margin-bottom: 28px;
+  }
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .progress-label {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  .progress-count {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 14px;
+    color: var(--accent2);
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7c3aed, #f59e0b);
+    border-radius: 100px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* Question Card */
+  .question-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.4s cubic-bezier(.4,0,.2,1);
+  }
+
+  .question-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #7c3aed, #f59e0b);
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-number {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .q-text {
+    font-size: clamp(15px, 4vw, 17px);
+    font-weight: 700;
+    line-height: 1.55;
+    color: #fff;
+    margin-bottom: 22px;
+  }
+
+  /* Options */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option-btn {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .option-btn:hover {
+    border-color: var(--accent);
+    background: #7c3aed18;
+    transform: translateX(4px);
+  }
+
+  .option-btn.selected {
+    border-color: var(--accent2);
+    background: #f59e0b18;
+  }
+
+  .option-letter {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 13px;
+    flex-shrink: 0;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+
+  .option-btn.selected .option-letter {
+    background: var(--accent2);
+    color: #0a0a0f;
+  }
+
+  /* Nav */
+  .nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+  }
+
+  .btn-prev {
+    background: var(--border);
+    color: var(--muted);
+  }
+
+  .btn-next {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: white;
+    box-shadow: 0 4px 20px #7c3aed44;
+  }
+
+  .btn-submit {
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: white;
+    box-shadow: 0 4px 20px #f59e0b44;
+    flex: 1;
+  }
+
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+  /* Result */
+  #result-screen {
+    display: none;
+    text-align: center;
+    animation: slideIn 0.6s cubic-bezier(.4,0,.2,1);
+  }
+
+  .rank-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px 28px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .rank-emoji {
+    font-size: 80px;
+    margin-bottom: 16px;
+    display: block;
+    filter: drop-shadow(0 0 30px currentColor);
+  }
+
+  .rank-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(28px, 9vw, 44px);
+    margin-bottom: 8px;
+  }
+
+  .rank-subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .score-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff10;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 10px 24px;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 18px;
+    margin-bottom: 24px;
+  }
+
+  .rank-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #c4c4e0;
+    background: #ffffff08;
+    border-radius: 14px;
+    padding: 18px;
+  }
+
+  .share-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    border-radius: 14px;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 20px #10b98144;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+
+  .share-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+  .result-guide {
+    background: var(--card);
+    border: 1px solid #7c3aed44;
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 16px;
+  }
+
+  .result-guide p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .result-guide strong {
+    color: var(--accent2);
+  }
+
+  /* toast */
+  .toast {
+    position: fixed;
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #10b981;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 100;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="badge">🤖 2025 AI Literacy Check</div>
+    <h1>나의 AI<br>레벨은?</h1>
+    <p>5가지 질문으로 당신의 AI 활용 수준을<br>솔직하게 진단합니다</p>
+  </div>
+
+  <!-- Quiz Screen -->
+  <div id="quiz-screen">
+    <div class="progress-wrap">
+      <div class="progress-info">
+        <span class="progress-label">PROGRESS</span>
+        <span class="progress-count" id="prog-count">1 / 5</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="prog-fill" style="width:20%"></div>
+      </div>
+    </div>
+
+    <div class="question-card" id="question-card">
+      <div class="q-number" id="q-number">Q 01</div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-prev" id="btn-prev" onclick="prevQ()" disabled>◀ 이전</button>
+      <button class="btn btn-next" id="btn-next" onclick="nextQ()">다음 ▶</button>
+    </div>
+  </div>
+
+  <!-- Result Screen -->
+  <div id="result-screen">
+    <div class="rank-card" id="rank-card">
+      <span class="rank-emoji" id="rank-emoji"></span>
+      <div class="rank-title" id="rank-title"></div>
+      <div class="rank-subtitle" id="rank-subtitle"></div>
+      <div class="score-box">
+        점수 <span id="score-display"></span> / 5
+      </div>
+      <div class="rank-desc" id="rank-desc"></div>
+    </div>
+
+    <button class="share-btn" onclick="submitResult()">
+      📊 전사 결과에 내 점수 반영하기
+    </button>
+
+    <div class="result-guide">
+      <p>결과를 제출하면 <strong>타운홀 대시보드</strong>에<br>우리 회사 전체 AI 리터러시 현황이 실시간으로 반영돼요!</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✅ 결과가 반영되었습니다!</div>
+
+<script>
+const questions = [
+  {
+    text: "AI 도구(ChatGPT, Claude 등)를 업무에서 얼마나 자주 사용하나요?",
+    options: [
+      "거의 사용해본 적 없다",
+      "가끔 써봤지만 꾸준히 쓰진 않는다",
+      "주 1~2회 정도 쓴다",
+      "거의 매일 업무에 활용한다"
+    ],
+    scores: [0, 1, 2, 3]
+  },
+  {
+    text: "AI에게 원하는 결과를 잘 얻기 위해 질문(프롬프트)을 조정해본 경험이 있나요?",
+    options: [
+      "프롬프트가 뭔지 잘 모른다",
+      "들어봤지만 딱히 신경 쓴 적 없다",
+      "몇 번 수정해서 더 나은 답을 얻어봤다",
+      "프롬프트 설계를 꽤 신경 쓰고 자주 최적화한다"
+    ],
+    scores: [0, 1, 2, 3]
+  },
+  {
+    text: "AI가 생성한 결과물(텍스트, 이미지 등)을 그대로 사용하지 않고 검토·수정하나요?",
+    options: [
+      "AI 결과물이라도 웬만하면 그냥 쓴다",
+      "중요한 건 확인하지만 대부분 그냥 쓴다",
+      "주요 내용은 꼭 확인하고 수정한다",
+      "항상 비판적으로 검토하고 사실 여부도 확인한다"
+    ],
+    scores: [0, 1, 2, 3]
+  },
+  {
+    text: "AI 관련 뉴스나 트렌드에 얼마나 관심을 갖고 있나요?",
+    options: [
+      "거의 관심 없다",
+      "눈에 띄면 읽는 정도",
+      "월 1회 이상 의도적으로 찾아본다",
+      "AI 트렌드를 꾸준히 팔로업하고 팀과 공유한다"
+    ],
+    scores: [0, 1, 2, 3]
+  },
+  {
+    text: "AI 도구 활용으로 실제 업무 효율이 높아진 경험이 있나요?",
+    options: [
+      "아직 없다, 잘 모르겠다",
+      "약간 편해진 것 같긴 한데 체감이 크지 않다",
+      "확실히 시간이 줄거나 품질이 좋아진 경험이 있다",
+      "AI 없이는 예전 속도로 돌아가기 힘들 것 같다"
+    ],
+    scores: [0, 1, 2, 3]
+  }
+];
+
+const ranks = [
+  {
+    min: 0, max: 3,
+    emoji: "🪨",
+    title: "AI 석기인",
+    subtitle: "아직 불을 발견하지 못했어요",
+    color: "#6b6b8a",
+    desc: "AI? 그게 뭐야 먹는 건가요? 걱정 마세요, 지금이 딱 시작할 때입니다. 석기시대에서 AI시대로, 첫 발을 내딛어 봐요!"
+  },
+  {
+    min: 4, max: 6,
+    emoji: "🌱",
+    title: "AI 새싹",
+    subtitle: "막 싹을 틔우기 시작했어요",
+    color: "#10b981",
+    desc: "AI의 존재는 알고 있고, 조금씩 써보고 있어요. 이 새싹이 자라면 얼마나 커질지! 지금처럼만 계속 시도해봐요."
+  },
+  {
+    min: 7, max: 9,
+    emoji: "⚔️",
+    title: "AI 기사",
+    subtitle: "실전에서 AI를 쓸 줄 아는 전사",
+    color: "#7c3aed",
+    desc: "AI 도구를 꾸준히 활용하고 효과도 체감하고 있네요. 조금만 더 깊이 파고들면 팀의 AI 리더가 될 수 있어요!"
+  },
+  {
+    min: 10, max: 12,
+    emoji: "👑",
+    title: "AI 황제",
+    subtitle: "이 회사 AI 생태계의 지배자",
+    color: "#f59e0b",
+    desc: "AI를 전략적으로 활용하고, 비판적으로 검토하며, 트렌드도 놓치지 않는 진정한 AI 황제! 주변 동료들을 이끌어 주세요."
+  }
+];
+
+let current = 0;
+let answers = new Array(5).fill(null);
+
+function getScore() {
+  return answers.reduce((sum, a, i) => sum + (a !== null ? questions[i].scores[a] : 0), 0);
+}
+
+function render() {
+  const q = questions[current];
+  document.getElementById('q-number').textContent = `Q ${String(current+1).padStart(2,'0')}`;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('prog-count').textContent = `${current+1} / 5`;
+  document.getElementById('prog-fill').style.width = `${(current+1)/5*100}%`;
+
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn' + (answers[current] === i ? ' selected' : '');
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectAnswer(i);
+    opts.appendChild(btn);
+  });
+
+  document.getElementById('btn-prev').disabled = current === 0;
+
+  const nextBtn = document.getElementById('btn-next');
+  if (current === 4) {
+    nextBtn.textContent = '결과 보기 🎯';
+    nextBtn.className = 'btn btn-submit';
+  } else {
+    nextBtn.textContent = '다음 ▶';
+    nextBtn.className = 'btn btn-next';
+  }
+
+  // animate
+  const card = document.getElementById('question-card');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = '';
+}
+
+function selectAnswer(i) {
+  answers[current] = i;
+  render();
+}
+
+function nextQ() {
+  if (answers[current] === null) {
+    alert('선택지를 골라주세요!');
+    return;
+  }
+  if (current < 4) {
+    current++;
+    render();
+  } else {
+    showResult();
+  }
+}
+
+function prevQ() {
+  if (current > 0) {
+    current--;
+    render();
+  }
+}
+
+function showResult() {
+  const score = getScore();
+  const rank = ranks.find(r => score >= r.min && score <= r.max);
+
+  document.getElementById('quiz-screen').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
+
+  document.getElementById('rank-emoji').textContent = rank.emoji;
+  document.getElementById('rank-title').textContent = rank.title;
+  document.getElementById('rank-title').style.color = rank.color;
+  document.getElementById('rank-subtitle').textContent = rank.subtitle;
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('rank-desc').textContent = rank.desc;
+
+  document.getElementById('rank-card').style.borderColor = rank.color + '44';
+}
+
+async function submitResult() {
+  const score = getScore();
+  const rank = ranks.find(r => score >= r.min && score <= r.max);
+
+  // Save to shared storage
+  try {
+    const id = 'result_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    const payload = JSON.stringify({ score, rank: rank.title, ts: Date.now() });
+    await window.storage.set(id, payload, true);
+  } catch(e) {}
+
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+
+  document.querySelector('.share-btn').textContent = '✅ 제출 완료!';
+  document.querySelector('.share-btn').disabled = true;
+  document.querySelector('.share-btn').style.opacity = '0.6';
+}
+
+render();
+</script>
+</body>
+</html>
