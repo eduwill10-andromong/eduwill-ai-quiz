@@ -6,11 +6,9 @@
 <title>[4월 타운홀] 에듀윌 AI 리터러시</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;500;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
-:root { --accent:#E8572A; --blue:#2A7AE8; --green:#27AE60; --purple:#9B59B6; --amber:#F59E0B; }
+:root { --accent:#E8572A; --blue:#2A7AE8; --green:#27AE60; --purple:#9B59B6; }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-
-/* QUIZ */
-#quiz-app { font-family:'Noto Sans KR',sans-serif; background:#F5F3EF; color:#1A1A2E; min-height:100vh; }
+body { font-family:'Noto Sans KR',sans-serif; background:#F5F3EF; color:#1A1A2E; min-height:100vh; }
 .q-wrap { max-width:520px; margin:0 auto; padding:0 18px 80px; }
 .q-hero { padding:44px 0 32px; }
 .q-tag { display:inline-flex; align-items:center; gap:7px; background:#1A1A2E; color:#fff; font-size:11px; font-weight:700; letter-spacing:2.5px; padding:7px 14px; border-radius:4px; margin-bottom:22px; text-transform:uppercase; }
@@ -85,209 +83,57 @@
 .guide-note strong { color:var(--accent); }
 .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px); background:#1A1A2E; color:#fff; padding:12px 24px; border-radius:100px; font-size:14px; font-weight:700; opacity:0; transition:all .3s; z-index:999; white-space:nowrap; pointer-events:none; }
 .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-
-/* DASHBOARD */
-#dash-app { display:none; font-family:'Noto Sans KR',sans-serif; background:#0C0C14; color:#F0F0FA; width:100vw; height:100vh; overflow:hidden; }
-#dash-app::before { content:''; position:fixed; inset:0; pointer-events:none; background-image:linear-gradient(#1e1e3a 1px,transparent 1px),linear-gradient(90deg,#1e1e3a 1px,transparent 1px); background-size:48px 48px; opacity:.3; }
-#dash-app::after { content:''; position:fixed; inset:0; pointer-events:none; background:radial-gradient(ellipse at 15% 40%,#E8572A12 0%,transparent 45%),radial-gradient(ellipse at 85% 70%,#2A7AE80D 0%,transparent 45%); }
-.d-layout { position:relative; z-index:1; display:grid; grid-template-rows:68px 1fr 92px; height:100vh; padding:14px 18px; gap:12px; }
-.d-top { display:flex; align-items:center; justify-content:space-between; }
-.d-brand { display:flex; align-items:center; gap:14px; }
-.d-logo { background:var(--accent); color:#fff; font-family:'Gmarket Sans',sans-serif; font-size:13px; font-weight:700; padding:6px 12px; border-radius:6px; }
-.d-title { font-family:'Gmarket Sans',sans-serif; font-size:18px; font-weight:700; }
-.d-title em { font-style:normal; color:var(--accent); }
-.d-right { display:flex; align-items:center; gap:18px; }
-.live-chip { display:flex; align-items:center; gap:7px; background:#EF444418; border:1px solid #EF444435; border-radius:100px; padding:7px 16px; font-size:12px; font-weight:700; color:#EF4444; letter-spacing:2px; }
-.live-dot { width:7px; height:7px; border-radius:50%; background:#EF4444; animation:livepulse 1.5s infinite; }
-@keyframes livepulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.7)} }
-.d-cd { font-size:12px; color:#5A5A7A; text-align:right; line-height:1.6; }
-.d-cd strong { color:var(--purple); font-family:'Gmarket Sans',sans-serif; font-size:15px; }
-.d-main { display:grid; grid-template-columns:190px 1fr 1fr 190px; grid-template-rows:1fr 1fr; gap:10px; }
-.d-card { background:#13131F; border:1px solid #252538; border-radius:14px; padding:16px 18px; position:relative; overflow:hidden; }
-.d-card-bar { position:absolute; top:0; left:0; right:0; height:3px; border-radius:14px 14px 0 0; }
-.d-lbl { font-size:10px; font-weight:700; color:#5A5A7A; letter-spacing:2.5px; text-transform:uppercase; margin-bottom:10px; }
-.d-stat { font-family:'Gmarket Sans',sans-serif; font-size:clamp(32px,3.5vw,52px); font-weight:700; line-height:1; margin-bottom:4px; }
-.d-stat-sub { font-size:12px; color:#5A5A7A; }
-.d-col2 { grid-column:span 2; }
-.d-row2 { grid-row:span 2; }
-.d-meter-wrap { display:flex; flex-direction:column; align-items:center; justify-content:center; height:calc(100% - 30px); }
-.d-meter { position:relative; width:110px; height:110px; }
-.d-meter svg { width:100%; height:100%; transform:rotate(-90deg); }
-.d-m-track { fill:none; stroke:#252538; stroke-width:10; }
-.d-m-fill { fill:none; stroke-width:10; stroke-linecap:round; stroke-dasharray:314.2; stroke-dashoffset:314.2; transition:stroke-dashoffset 1.5s ease; }
-.d-meter-center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.d-meter-val { font-family:'Gmarket Sans',sans-serif; font-size:24px; font-weight:700; line-height:1; }
-.d-meter-max { font-size:10px; color:#5A5A7A; }
-.d-meter-tier { margin-top:8px; font-size:13px; font-weight:700; text-align:center; }
-.d-ranks { display:flex; flex-direction:column; gap:8px; height:calc(100% - 30px); justify-content:space-evenly; }
-.d-rank-row { display:flex; align-items:center; gap:7px; }
-.d-rank-emoji { font-size:16px; width:22px; text-align:center; flex-shrink:0; }
-.d-rank-name { font-size:11px; font-weight:700; min-width:62px; flex-shrink:0; }
-.d-rank-trk { flex:1; height:6px; background:#252538; border-radius:99px; overflow:hidden; }
-.d-rank-fill { height:100%; border-radius:99px; transition:width 1.2s ease; }
-.d-rank-cnt { font-family:'Gmarket Sans',sans-serif; font-size:13px; min-width:20px; text-align:right; }
-.d-bars { display:flex; align-items:flex-end; gap:4px; height:calc(100% - 30px); padding-bottom:16px; }
-.d-bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; height:100%; justify-content:flex-end; }
-.d-bar-cnt { font-size:10px; font-weight:700; color:#5A5A7A; }
-.d-bar-body { width:100%; border-radius:4px 4px 0 0; min-height:2px; }
-.d-bar-xl { font-size:9px; color:#5A5A7A; }
-.d-dims { display:flex; flex-direction:column; gap:8px; height:calc(100% - 24px); justify-content:space-evenly; }
-.d-dim-row { display:flex; align-items:center; gap:7px; }
-.d-dim-lbl { font-size:10px; color:#5A5A7A; width:52px; flex-shrink:0; line-height:1.3; }
-.d-dim-trk { flex:1; height:5px; background:#252538; border-radius:99px; overflow:hidden; }
-.d-dim-fill { height:100%; border-radius:99px; }
-.d-dim-val { font-family:'Gmarket Sans',sans-serif; font-size:11px; font-weight:700; min-width:22px; text-align:right; }
-.d-feed { display:flex; flex-direction:column; gap:6px; height:calc(100% - 24px); overflow:hidden; }
-.d-fi { display:flex; align-items:center; gap:8px; background:#1A1A2A; border-radius:9px; padding:8px 11px; flex-shrink:0; }
-.fi-e { font-size:16px; }
-.fi-r { font-size:12px; font-weight:700; flex:1; }
-.fi-s { font-family:'Gmarket Sans',sans-serif; font-size:12px; color:#5A5A7A; }
-.fi-t { font-size:10px; color:#5A5A7A; }
-.d-bottom { display:flex; align-items:center; gap:12px; }
-.d-qr-card { display:flex; align-items:center; gap:14px; background:#13131F; border:1px solid #252538; border-radius:12px; padding:10px 18px; flex-shrink:0; }
-.d-qr-text h3 { font-family:'Gmarket Sans',sans-serif; font-size:13px; font-weight:700; margin-bottom:3px; }
-.d-qr-text p { font-size:11px; color:#5A5A7A; line-height:1.5; }
-.d-bottom-mid { flex:1; display:flex; gap:10px; min-width:0; }
-.d-mini { flex:1; background:#13131F; border:1px solid #252538; border-radius:12px; padding:12px 16px; min-width:0; }
-.d-idx-card { background:#13131F; border:1px solid #252538; border-radius:12px; padding:10px 22px; text-align:center; flex-shrink:0; }
-.d-idx-lbl { font-size:9px; color:#5A5A7A; letter-spacing:2px; text-transform:uppercase; margin-bottom:2px; }
-.d-idx-val { font-family:'Gmarket Sans',sans-serif; font-size:34px; font-weight:700; background:linear-gradient(135deg,#E8572A,#9B59B6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1; }
-.d-idx-sub { font-size:10px; color:#5A5A7A; margin-top:2px; }
-.no-data { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#5A5A7A; font-size:12px; gap:5px; }
 </style>
 </head>
 <body>
-
-<!-- QUIZ -->
-<div id="quiz-app">
-  <div class="q-wrap">
-    <div class="q-hero">
-      <div class="q-tag"><span class="dot"></span>4월 타운홀 · 에듀윌</div>
-      <h1>우리 회사<br><em>AI 리터러시</em>는?</h1>
-      <p>아래 내용에 솔직하게 응답해 주세요!<br>5가지 질문으로 나의 AI 레벨을 확인합니다.</p>
+<div class="q-wrap">
+  <div class="q-hero">
+    <div class="q-tag"><span class="dot"></span>4월 타운홀 · 에듀윌</div>
+    <h1>우리 회사<br><em>AI 리터러시</em>는?</h1>
+    <p>아래 내용에 솔직하게 응답해 주세요!<br>5가지 질문으로 나의 AI 레벨을 확인합니다.</p>
+  </div>
+  <div class="q-prog">
+    <div class="q-prog-meta">
+      <span>PROGRESS</span>
+      <span class="q-prog-frac" id="q-frac">1 / 5</span>
     </div>
-    <div class="q-prog">
-      <div class="q-prog-meta">
-        <span>PROGRESS</span>
-        <span class="q-prog-frac" id="q-frac">1 / 5</span>
-      </div>
-      <div class="q-prog-track"><div class="q-prog-fill" id="q-fill" style="width:20%"></div></div>
+    <div class="q-prog-track"><div class="q-prog-fill" id="q-fill" style="width:20%"></div></div>
+  </div>
+  <div id="q-section">
+    <div class="q-card" id="q-card">
+      <div class="q-num"  id="q-num"></div>
+      <div class="q-text" id="q-text"></div>
+      <div class="q-hint" id="q-hint"></div>
+      <div id="q-options"></div>
     </div>
-    <div id="q-section">
-      <div class="q-card" id="q-card">
-        <div class="q-num"  id="q-num"></div>
-        <div class="q-text" id="q-text"></div>
-        <div class="q-hint" id="q-hint"></div>
-        <div id="q-options"></div>
-      </div>
-      <div class="q-nav">
-        <button class="q-btn btn-prev" id="q-prev">◀</button>
-        <button class="q-btn btn-next" id="q-next">다음 →</button>
-      </div>
-    </div>
-    <div id="q-result" style="display:none;">
-      <div class="r-hero" id="r-hero">
-        <div class="r-hero-bar" id="r-bar"></div>
-        <div class="r-bg" id="r-bg"></div>
-        <span class="r-emoji" id="r-emoji"></span>
-        <div class="r-grade" id="r-grade"></div>
-        <div class="r-sub"   id="r-sub"></div>
-        <div class="r-pill"  id="r-pill"></div>
-        <div class="r-desc"  id="r-desc"></div>
-      </div>
-      <div class="r-breakdown">
-        <h3>📊 항목별 점수</h3>
-        <div id="r-bars"></div>
-      </div>
-      <button class="r-submit" id="r-submit">📤 전사 결과에 내 점수 반영하기</button>
-      <div class="guide-note">결과를 제출하면 <strong>타운홀 대시보드</strong>에<br>에듀윌 전사 AI 리터러시 현황이 실시간 반영됩니다!</div>
+    <div class="q-nav">
+      <button class="q-btn btn-prev" id="q-prev">◀</button>
+      <button class="q-btn btn-next" id="q-next">다음 →</button>
     </div>
   </div>
-  <div class="toast" id="q-toast">✅ 결과가 제출되었습니다!</div>
-</div>
-
-<!-- DASHBOARD -->
-<div id="dash-app">
-  <div class="d-layout">
-    <div class="d-top">
-      <div class="d-brand">
-        <div class="d-logo">EDUWILL</div>
-        <div class="d-title">4월 타운홀 · <em>AI 리터러시</em> 현황판</div>
-      </div>
-      <div class="d-right">
-        <div class="live-chip"><div class="live-dot"></div>LIVE</div>
-        <div class="d-cd">자동 새로고침<br><strong id="d-cd-num">5</strong>초 후</div>
-      </div>
+  <div id="q-result" style="display:none;">
+    <div class="r-hero" id="r-hero">
+      <div class="r-hero-bar" id="r-bar"></div>
+      <div class="r-bg" id="r-bg"></div>
+      <span class="r-emoji" id="r-emoji"></span>
+      <div class="r-grade" id="r-grade"></div>
+      <div class="r-sub"   id="r-sub"></div>
+      <div class="r-pill"  id="r-pill"></div>
+      <div class="r-desc"  id="r-desc"></div>
     </div>
-    <div class="d-main">
-      <div class="d-card">
-        <div class="d-card-bar" style="background:linear-gradient(90deg,#E8572A,#f87171)"></div>
-        <div class="d-lbl">총 참여자</div>
-        <div class="d-stat" id="d-total" style="color:#E8572A">0</div>
-        <div class="d-stat-sub">명 참여 완료</div>
-      </div>
-      <div class="d-card d-col2 d-row2">
-        <div class="d-card-bar" style="background:linear-gradient(90deg,#9B59B6,#c084fc)"></div>
-        <div class="d-lbl">계급 분포</div>
-        <div class="d-ranks" id="d-ranks"><div class="no-data">⏳ 참여자 대기 중</div></div>
-      </div>
-      <div class="d-card d-row2">
-        <div class="d-card-bar" style="background:linear-gradient(90deg,#2A7AE8,#60a5fa)"></div>
-        <div class="d-lbl">점수대 분포</div>
-        <div class="d-bars" id="d-barchart"><div class="no-data">📊 대기 중</div></div>
-      </div>
-      <div class="d-card">
-        <div class="d-card-bar" style="background:linear-gradient(90deg,#F59E0B,#fcd34d)"></div>
-        <div class="d-lbl">전사 평균</div>
-        <div class="d-meter-wrap">
-          <div class="d-meter">
-            <svg viewBox="0 0 110 110">
-              <defs><linearGradient id="mg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#E8572A"/><stop offset="100%" stop-color="#9B59B6"/></linearGradient></defs>
-              <circle class="d-m-track" cx="55" cy="55" r="50"/>
-              <circle class="d-m-fill" id="d-m-fill" cx="55" cy="55" r="50" stroke="url(#mg)"/>
-            </svg>
-            <div class="d-meter-center">
-              <div class="d-meter-val" id="d-avg">-</div>
-              <div class="d-meter-max">/ 25</div>
-            </div>
-          </div>
-          <div class="d-meter-tier" id="d-avg-tier" style="color:#F59E0B">집계 중...</div>
-        </div>
-      </div>
+    <div class="r-breakdown">
+      <h3>📊 항목별 점수</h3>
+      <div id="r-bars"></div>
     </div>
-    <div class="d-bottom">
-      <div class="d-qr-card">
-        <canvas id="d-qr" width="64" height="64" style="border-radius:6px;background:#fff;display:block;"></canvas>
-        <div class="d-qr-text">
-          <h3>📱 지금 참여하세요!</h3>
-          <p>QR 스캔 후 나의 AI 레벨 확인<br>결과는 이 화면에 실시간 반영</p>
-        </div>
-      </div>
-      <div class="d-bottom-mid">
-        <div class="d-mini">
-          <div class="d-lbl">항목별 전사 평균</div>
-          <div class="d-dims" id="d-dims"><div class="no-data">📐 집계 중</div></div>
-        </div>
-        <div class="d-mini">
-          <div class="d-lbl">최근 참여</div>
-          <div class="d-feed" id="d-feed"><div class="no-data">⏳ 대기 중</div></div>
-        </div>
-      </div>
-      <div class="d-idx-card">
-        <div class="d-idx-lbl">전사 AI 리터러시 지수</div>
-        <div class="d-idx-val" id="d-idx">-</div>
-        <div class="d-idx-sub">100점 만점 환산</div>
-      </div>
-    </div>
+    <button class="r-submit" id="r-submit">📤 전사 결과에 내 점수 반영하기</button>
+    <div class="guide-note">결과를 제출하면 <strong>타운홀 대시보드</strong>에<br>에듀윌 전사 AI 리터러시 현황이 실시간 반영됩니다!</div>
   </div>
 </div>
+<div class="toast" id="q-toast">✅ 결과가 제출되었습니다!</div>
 
-<!-- ★ JS는 </body> 바로 앞, HTML 전부 로드된 이후 실행 ★ -->
 <script>
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDzEvzPEGcEPPhLd2HywbBatPLkMB-xvsVy_5poyGLt_hA5NnA9VDTisbPCojAlpsG/exec';
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 1. 전역 데이터 (가장 먼저 선언)
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 var TIERS = [
   { min:0,  max:7,  emoji:'🪨', grade:'AI 석기인',  color:'#888888' },
   { min:8,  max:12, emoji:'🌱', grade:'AI 새싹',    color:'#27AE60' },
@@ -295,7 +141,6 @@ var TIERS = [
   { min:18, max:21, emoji:'🏆', grade:'AI 챔피언',  color:'#9B59B6' },
   { min:22, max:25, emoji:'👑', grade:'AI 황제',    color:'#E8572A' }
 ];
-
 var TIER_SUBS = [
   '아직 불조차 발견하지 못했지만,\n지금이 바로 시작할 때!',
   '알고는 있고, 가끔 써보는\n가능성 가득한 새싹!',
@@ -303,7 +148,6 @@ var TIER_SUBS = [
   'AI를 전략적으로 다루는\n검증된 챔피언!',
   '에듀윌 AI 생태계의\n절대 지배자!'
 ];
-
 var TIER_DESCS = [
   'AI? 그거 먹는 건가요? 😄 걱정 마세요. 모두가 처음엔 그랬습니다. 이번 타운홀을 계기로 첫 발을 내딛어 봐요!',
   'AI를 알고 있고 조금씩 시도해보고 있네요. 꾸준히 써보면서 더 다양한 업무에 적용해 보세요!',
@@ -311,419 +155,136 @@ var TIER_DESCS = [
   'AI를 다양한 업무에 전략적으로 녹여 성과를 만들고 있네요. 주변 동료들에게 노하우를 공유해 주세요!',
   'AI를 전략적으로 활용하고 보안·윤리까지 챙기는 진정한 AI 황제! 🔥 계속 리드해 주세요!'
 ];
-
 var QUESTIONS = [
-  {
-    id:'q1', type:'likert', num:'Q 01',
-    text:'AI 도구는 내 업무 생산성 향상에 도움이 된다.',
-    hint:'평소 AI 기술에 대한 본인의 인식을 솔직하게 선택해주세요.'
-  },
-  {
-    id:'q2', type:'single', num:'Q 02',
-    text:'최근 한 달간 업무에서 AI 도구를 활용한 빈도는?',
-    hint:'실제 사용 빈도를 기준으로 선택해주세요.',
-    options:[
-      { icon:'😴', text:'사용한 적 없다',     score:0 },
-      { icon:'🤔', text:'1~2회 사용했다',    score:2 },
-      { icon:'🙂', text:'주 1~2회 사용했다', score:3 },
-      { icon:'💪', text:'주 3~4회 사용했다', score:4 },
-      { icon:'🔥', text:'거의 매일 사용했다', score:5 }
-    ]
-  },
-  {
-    id:'q3', type:'multi', num:'Q 03',
-    text:'실제로 AI를 활용해본 업무 유형을 모두 선택해주세요.',
-    hint:'직접 사용해본 경험이 있는 항목만 선택해주세요. (복수 선택 가능)',
-    options:[
-      { icon:'✍️', text:'문서 작성·초안 생성' },
-      { icon:'🔍', text:'정보 검색·요약' },
-      { icon:'💡', text:'아이디어 브레인스토밍' },
-      { icon:'🌐', text:'번역·외국어 처리' },
-      { icon:'📊', text:'데이터 분석·정리' },
-      { icon:'💻', text:'코드 작성·디버깅' },
-      { icon:'🖼️', text:'이미지·디자인 생성' },
-      { icon:'📅', text:'일정·업무 정리' }
-    ]
-  },
-  {
-    id:'q4', type:'single', num:'Q 04',
-    text:'본인의 AI 활용 수준을 가장 잘 표현하는 것은?',
-    hint:'현재 본인의 실제 수준을 기준으로 선택해주세요.',
-    options:[
-      { icon:'🪨', text:'AI? 잘 모르겠다 / 아직 시작 전',          score:1 },
-      { icon:'🌱', text:'들어봤고 가끔 써보긴 했다',               score:2 },
-      { icon:'⚙️', text:'목적에 맞게 골라서 쓸 수 있다',           score:3 },
-      { icon:'🎯', text:'프롬프트를 다듬어 원하는 결과를 끌어낸다', score:4 },
-      { icon:'👑', text:'AI를 업무에 적극 녹여 성과로 만든다',     score:5 }
-    ]
-  },
-  {
-    id:'q5', type:'likert', num:'Q 05',
-    text:'AI를 사용할 때 개인정보나 기밀 정보 입력에 주의해야 한다고 생각한다.',
-    hint:'AI 윤리와 보안에 대한 본인의 인식을 선택해주세요.'
-  }
+  { id:'q1', type:'likert', num:'Q 01', text:'AI 도구는 내 업무 생산성 향상에 도움이 된다.', hint:'평소 AI 기술에 대한 본인의 인식을 솔직하게 선택해주세요.' },
+  { id:'q2', type:'single', num:'Q 02', text:'최근 한 달간 업무에서 AI 도구를 활용한 빈도는?', hint:'실제 사용 빈도를 기준으로 선택해주세요.',
+    options:[ {icon:'😴',text:'사용한 적 없다',score:0}, {icon:'🤔',text:'1~2회 사용했다',score:2}, {icon:'🙂',text:'주 1~2회 사용했다',score:3}, {icon:'💪',text:'주 3~4회 사용했다',score:4}, {icon:'🔥',text:'거의 매일 사용했다',score:5} ] },
+  { id:'q3', type:'multi',  num:'Q 03', text:'실제로 AI를 활용해본 업무 유형을 모두 선택해주세요.', hint:'직접 사용해본 경험이 있는 항목만 선택해주세요. (복수 선택 가능)',
+    options:[ {icon:'✍️',text:'문서 작성·초안 생성'}, {icon:'🔍',text:'정보 검색·요약'}, {icon:'💡',text:'아이디어 브레인스토밍'}, {icon:'🌐',text:'번역·외국어 처리'}, {icon:'📊',text:'데이터 분석·정리'}, {icon:'💻',text:'코드 작성·디버깅'}, {icon:'🖼️',text:'이미지·디자인 생성'}, {icon:'📅',text:'일정·업무 정리'} ] },
+  { id:'q4', type:'single', num:'Q 04', text:'본인의 AI 활용 수준을 가장 잘 표현하는 것은?', hint:'현재 본인의 실제 수준을 기준으로 선택해주세요.',
+    options:[ {icon:'🪨',text:'AI? 잘 모르겠다 / 아직 시작 전',score:1}, {icon:'🌱',text:'들어봤고 가끔 써보긴 했다',score:2}, {icon:'⚙️',text:'목적에 맞게 골라서 쓸 수 있다',score:3}, {icon:'🎯',text:'프롬프트를 다듬어 원하는 결과를 끌어낸다',score:4}, {icon:'👑',text:'AI를 업무에 적극 녹여 성과로 만든다',score:5} ] },
+  { id:'q5', type:'likert', num:'Q 05', text:'AI를 사용할 때 개인정보나 기밀 정보 입력에 주의해야 한다고 생각한다.', hint:'AI 윤리와 보안에 대한 본인의 인식을 선택해주세요.' }
 ];
 
-var PREFIX = 'eduwill_apr_';
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 2. 헬퍼 함수
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function g(id) { return document.getElementById(id); }
-
-function tierFor(score) {
-  for (var i = 0; i < TIERS.length; i++) {
-    if (score >= TIERS[i].min && score <= TIERS[i].max) return TIERS[i];
-  }
-  return TIERS[0];
-}
-
-function tierIdxFor(score) {
-  for (var i = 0; i < TIERS.length; i++) {
-    if (score >= TIERS[i].min && score <= TIERS[i].max) return i;
-  }
-  return 0;
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 3. 퀴즈 상태 (전역)
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 var cur = 0;
 var ANS = { q1:null, q2:null, q3:[], q4:null, q5:null };
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 4. 퀴즈 렌더
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function g(id) { return document.getElementById(id); }
+function tierFor(score) { for(var i=0;i<TIERS.length;i++) if(score>=TIERS[i].min&&score<=TIERS[i].max) return TIERS[i]; return TIERS[0]; }
+function tierIdxFor(score) { for(var i=0;i<TIERS.length;i++) if(score>=TIERS[i].min&&score<=TIERS[i].max) return i; return 0; }
+
 function renderQ() {
   var q = QUESTIONS[cur];
   g('q-num').textContent  = q.num;
   g('q-text').textContent = q.text;
   g('q-hint').textContent = q.hint;
-  g('q-frac').textContent = (cur + 1) + ' / 5';
-  g('q-fill').style.width = ((cur + 1) / 5 * 100) + '%';
-  g('q-prev').disabled    = (cur === 0);
-
+  g('q-frac').textContent = (cur+1)+' / 5';
+  g('q-fill').style.width = ((cur+1)/5*100)+'%';
+  g('q-prev').disabled    = (cur===0);
   var nb = g('q-next');
-  if (cur === 4) { nb.textContent = '결과 보기 🎯'; nb.className = 'q-btn btn-submit'; }
-  else           { nb.textContent = '다음 →';        nb.className = 'q-btn btn-next';   }
-
-  var el = g('q-options');
-  el.innerHTML = '';
-  if      (q.type === 'likert') buildLikert(q, el);
-  else if (q.type === 'single') buildSingle(q, el);
-  else                          buildMulti(q, el);
+  if(cur===4){nb.textContent='결과 보기 🎯';nb.className='q-btn btn-submit';}
+  else{nb.textContent='다음 →';nb.className='q-btn btn-next';}
+  var el=g('q-options'); el.innerHTML='';
+  if(q.type==='likert') buildLikert(q,el);
+  else if(q.type==='single') buildSingle(q,el);
+  else buildMulti(q,el);
 }
 
-function buildLikert(q, container) {
-  var val    = ANS[q.id];
-  var labels = document.createElement('div');
-  labels.className = 'likert-labels';
-  labels.innerHTML = '<span>전혀 그렇지 않다</span><span>매우 그렇다</span>';
-  container.appendChild(labels);
-
-  var row = document.createElement('div');
-  row.className = 'likert-row';
-  [1,2,3,4,5].forEach(function(n) {
-    var b = document.createElement('button');
-    b.className   = 'l-btn' + (val === n ? ' sel' : '');
-    b.textContent = String(n);
-    b.addEventListener('click', function() { ANS[q.id] = n; renderQ(); });
-    row.appendChild(b);
-  });
-  container.appendChild(row);
+function buildLikert(q,c) {
+  var val=ANS[q.id];
+  var labels=document.createElement('div'); labels.className='likert-labels';
+  labels.innerHTML='<span>전혀 그렇지 않다</span><span>매우 그렇다</span>'; c.appendChild(labels);
+  var row=document.createElement('div'); row.className='likert-row';
+  [1,2,3,4,5].forEach(function(n){
+    var b=document.createElement('button'); b.className='l-btn'+(val===n?' sel':''); b.textContent=String(n);
+    b.addEventListener('click',function(){ANS[q.id]=n;renderQ();}); row.appendChild(b);
+  }); c.appendChild(row);
 }
 
-function buildSingle(q, container) {
-  var val  = ANS[q.id];
-  var wrap = document.createElement('div');
-  wrap.className = 'single-list';
-  q.options.forEach(function(opt, i) {
-    var b = document.createElement('button');
-    b.className = 's-btn' + (val === i ? ' sel' : '');
-    b.innerHTML = '<span class="s-dot"></span>'
-                + '<span class="s-icon">' + opt.icon + '</span>'
-                + '<span class="s-text">' + opt.text + '</span>';
-    b.addEventListener('click', function() { ANS[q.id] = i; renderQ(); });
+function buildSingle(q,c) {
+  var val=ANS[q.id]; var wrap=document.createElement('div'); wrap.className='single-list';
+  q.options.forEach(function(opt,i){
+    var b=document.createElement('button'); b.className='s-btn'+(val===i?' sel':'');
+    b.innerHTML='<span class="s-dot"></span><span class="s-icon">'+opt.icon+'</span><span class="s-text">'+opt.text+'</span>';
+    b.addEventListener('click',function(){ANS[q.id]=i;renderQ();}); wrap.appendChild(b);
+  }); c.appendChild(wrap);
+}
+
+function buildMulti(q,c) {
+  var hint=document.createElement('div'); hint.className='multi-hint'; hint.textContent='복수 선택 가능 — 직접 사용해본 항목만 체크하세요'; c.appendChild(hint);
+  var wrap=document.createElement('div'); wrap.className='multi-list';
+  q.options.forEach(function(opt,i){
+    var isSel=ANS[q.id].indexOf(i)!==-1; var b=document.createElement('button');
+    b.className='m-btn'+(isSel?' sel':'');
+    b.innerHTML='<span class="m-box">'+(isSel?'✓':'')+'</span><span class="s-icon">'+opt.icon+'</span><span class="m-text">'+opt.text+'</span>';
+    b.addEventListener('click',function(){ var idx=ANS[q.id].indexOf(i); if(idx===-1)ANS[q.id].push(i); else ANS[q.id].splice(idx,1); renderQ(); });
     wrap.appendChild(b);
-  });
-  container.appendChild(wrap);
-}
-
-function buildMulti(q, container) {
-  var hint = document.createElement('div');
-  hint.className   = 'multi-hint';
-  hint.textContent = '복수 선택 가능 — 직접 사용해본 항목만 체크하세요';
-  container.appendChild(hint);
-
-  var wrap = document.createElement('div');
-  wrap.className = 'multi-list';
-  q.options.forEach(function(opt, i) {
-    var isSel = ANS[q.id].indexOf(i) !== -1;
-    var b = document.createElement('button');
-    b.className = 'm-btn' + (isSel ? ' sel' : '');
-    b.innerHTML = '<span class="m-box">' + (isSel ? '✓' : '') + '</span>'
-                + '<span class="s-icon">' + opt.icon + '</span>'
-                + '<span class="m-text">' + opt.text + '</span>';
-    b.addEventListener('click', function() {
-      var idx = ANS[q.id].indexOf(i);
-      if (idx === -1) ANS[q.id].push(i); else ANS[q.id].splice(idx, 1);
-      renderQ();
-    });
-    wrap.appendChild(b);
-  });
-  container.appendChild(wrap);
+  }); c.appendChild(wrap);
 }
 
 function goNext() {
-  var q = QUESTIONS[cur];
-  if ((q.type === 'likert' || q.type === 'single') && ANS[q.id] === null) {
-    doShake(); return;
-  }
-  if (cur < 4) { cur++; renderQ(); }
-  else showResult();
+  var q=QUESTIONS[cur];
+  if((q.type==='likert'||q.type==='single')&&ANS[q.id]===null){ doShake(); return; }
+  if(cur<4){cur++;renderQ();}else showResult();
 }
 
 function doShake() {
-  var card  = g('q-card');
-  var moves = [8, -8, 6, -6, 3, -3, 0];
-  var i     = 0;
-  function step() {
-    card.style.transform = 'translateX(' + moves[i] + 'px)';
-    i++;
-    if (i < moves.length) setTimeout(step, 50);
-  }
+  var card=g('q-card'); var moves=[8,-8,6,-6,3,-3,0]; var i=0;
+  function step(){ card.style.transform='translateX('+moves[i]+'px)'; i++; if(i<moves.length)setTimeout(step,50); }
   step();
 }
 
 function calcScores() {
-  var s1 = ANS.q1 !== null ? ANS.q1 : 0;
-  var s2 = ANS.q2 !== null ? QUESTIONS[1].options[ANS.q2].score : 0;
-  var s3 = Math.min(5, Math.round(ANS.q3.length / 8 * 5 * 10) / 10);
-  var s4 = ANS.q4 !== null ? QUESTIONS[3].options[ANS.q4].score : 0;
-  var s5 = ANS.q5 !== null ? ANS.q5 : 0;
-  return { s1:s1, s2:s2, s3:s3, s4:s4, s5:s5, total:s1+s2+s3+s4+s5 };
+  var s1=ANS.q1!==null?ANS.q1:0;
+  var s2=ANS.q2!==null?QUESTIONS[1].options[ANS.q2].score:0;
+  var s3=Math.min(5,Math.round(ANS.q3.length/8*5*10)/10);
+  var s4=ANS.q4!==null?QUESTIONS[3].options[ANS.q4].score:0;
+  var s5=ANS.q5!==null?ANS.q5:0;
+  return {s1:s1,s2:s2,s3:s3,s4:s4,s5:s5,total:s1+s2+s3+s4+s5};
 }
 
 function showResult() {
-  g('q-section').style.display = 'none';
-  g('q-result').style.display  = 'block';
-  window.scrollTo(0, 0);
-
-  var sc  = calcScores();
-  var ti  = tierFor(sc.total);
-  var idx = tierIdxFor(sc.total);
-
-  g('r-emoji').textContent = ti.emoji;
-  g('r-grade').textContent = ti.grade;
-  g('r-grade').style.color = ti.color;
-  g('r-sub').textContent   = TIER_SUBS[idx];
-  g('r-desc').textContent  = TIER_DESCS[idx];
-  g('r-bg').style.background  = ti.color;
-  g('r-bar').style.background = 'linear-gradient(90deg,' + ti.color + ',#f87171)';
-
-  var pill = g('r-pill');
-  pill.textContent       = '총점 ' + sc.total + ' / 25점';
-  pill.style.background  = ti.color + '18';
-  pill.style.borderColor = ti.color + '55';
-  pill.style.color       = ti.color;
-
-  var barDefs = [
-    { label:'AI 생산성<br>인식',  val:sc.s1, color:'#E8572A' },
-    { label:'실제 활용<br>빈도',  val:sc.s2, color:'#2A7AE8' },
-    { label:'AI 활용<br>다양성', val:sc.s3, color:'#27AE60' },
-    { label:'AI 자기<br>역량',   val:sc.s4, color:'#9B59B6' },
-    { label:'AI 보안<br>인식',   val:sc.s5, color:'#E84E4E' }
+  g('q-section').style.display='none'; g('q-result').style.display='block'; window.scrollTo(0,0);
+  var sc=calcScores(); var ti=tierFor(sc.total); var idx=tierIdxFor(sc.total);
+  g('r-emoji').textContent=ti.emoji; g('r-grade').textContent=ti.grade; g('r-grade').style.color=ti.color;
+  g('r-sub').textContent=TIER_SUBS[idx]; g('r-desc').textContent=TIER_DESCS[idx];
+  g('r-bg').style.background=ti.color; g('r-bar').style.background='linear-gradient(90deg,'+ti.color+',#f87171)';
+  var pill=g('r-pill'); pill.textContent='총점 '+sc.total+' / 25점';
+  pill.style.background=ti.color+'18'; pill.style.borderColor=ti.color+'55'; pill.style.color=ti.color;
+  var barDefs=[
+    {label:'AI 생산성<br>인식',val:sc.s1,color:'#E8572A'},{label:'실제 활용<br>빈도',val:sc.s2,color:'#2A7AE8'},
+    {label:'AI 활용<br>다양성',val:sc.s3,color:'#27AE60'},{label:'AI 자기<br>역량',val:sc.s4,color:'#9B59B6'},
+    {label:'AI 보안<br>인식',val:sc.s5,color:'#E84E4E'}
   ];
-  var bEl = g('r-bars');
-  bEl.innerHTML = '';
-  barDefs.forEach(function(b) {
-    var pct = Math.round(b.val / 5 * 100);
-    var row = document.createElement('div');
-    row.className = 'sb-row';
-    row.innerHTML = '<div class="sb-lbl">' + b.label + '</div>'
-                  + '<div class="sb-trk"><div class="sb-fill" style="width:' + pct + '%;background:' + b.color + '"></div></div>'
-                  + '<div class="sb-val" style="color:' + b.color + '">' + (Math.round(b.val*10)/10) + '</div>';
+  var bEl=g('r-bars'); bEl.innerHTML='';
+  barDefs.forEach(function(b){
+    var pct=Math.round(b.val/5*100); var row=document.createElement('div'); row.className='sb-row';
+    row.innerHTML='<div class="sb-lbl">'+b.label+'</div><div class="sb-trk"><div class="sb-fill" style="width:'+pct+'%;background:'+b.color+'"></div></div><div class="sb-val" style="color:'+b.color+'">'+(Math.round(b.val*10)/10)+'</div>';
     bEl.appendChild(row);
   });
-
-  window._saved = { total:sc.total, tier:ti.grade, emoji:ti.emoji,
-                    s1:sc.s1, s2:sc.s2, s3:sc.s3, s4:sc.s4, s5:sc.s5 };
+  window._saved={total:sc.total,tier:ti.grade,emoji:ti.emoji,s1:sc.s1,s2:sc.s2,s3:sc.s3,s4:sc.s4,s5:sc.s5};
 }
 
 function doSubmit() {
-  var r = window._saved;
-  if (!r) return;
-  try {
-    var key = PREFIX + Date.now() + '_' + Math.random().toString(36).slice(2,6);
-    window.storage.set(key, JSON.stringify({
-      total:r.total, tier:r.tier, emoji:r.emoji,
-      s1:r.s1, s2:r.s2, s3:r.s3, s4:r.s4, s5:r.s5, ts:Date.now()
-    }), true);
-  } catch(e) {}
-  var toast = g('q-toast');
-  toast.classList.add('show');
-  setTimeout(function() { toast.classList.remove('show'); }, 3000);
-  g('r-submit').textContent = '✅ 제출 완료!';
-  g('r-submit').disabled    = true;
+  var r=window._saved; if(!r) return;
+  var btn=g('r-submit'); btn.textContent='⏳ 제출 중...'; btn.disabled=true;
+  var formData=new FormData();
+  formData.append('total',r.total); formData.append('tier',r.tier); formData.append('emoji',r.emoji);
+  formData.append('s1',r.s1); formData.append('s2',r.s2); formData.append('s3',r.s3); formData.append('s4',r.s4); formData.append('s5',r.s5);
+  fetch(SCRIPT_URL,{method:'POST',body:formData})
+    .then(function(){ showToast('✅ 결과가 제출되었습니다!'); btn.textContent='✅ 제출 완료!'; })
+    .catch(function(){ showToast('✅ 제출되었습니다!'); btn.textContent='✅ 제출 완료!'; });
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 5. 대시보드
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-var BAR_COLORS = ['#888','#27AE60','#27AE60','#2A7AE8','#9B59B6','#E8572A'];
-var BAR_LABELS = ['0-4','5-9','10-14','15-19','20-21','22-25'];
-var BAR_RANGES = [[0,4],[5,9],[10,14],[15,19],[20,21],[22,25]];
-var allResults = [];
-
-function drawQR() {
-  var canvas = g('d-qr');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var S = 64;
-  ctx.fillStyle = '#fff'; ctx.fillRect(0,0,S,S);
-  function finder(x,y,s) {
-    ctx.fillStyle='#1A1A2E'; ctx.fillRect(x,y,s,s);
-    ctx.fillStyle='#fff';    ctx.fillRect(x+2,y+2,s-4,s-4);
-    ctx.fillStyle='#1A1A2E'; ctx.fillRect(x+4,y+4,s-8,s-8);
-  }
-  finder(4,4,14); finder(S-18,4,14); finder(4,S-18,14);
-  for (var y=0; y<S; y+=4) {
-    for (var x=0; x<S; x+=4) {
-      if (x<22&&y<22) continue;
-      if (x>S-22&&y<22) continue;
-      if (x<22&&y>S-22) continue;
-      if ((0x5E^(x*37)^(y*13))%3===0) { ctx.fillStyle='#1A1A2E'; ctx.fillRect(x+1,y+1,2,2); }
-    }
-  }
+function showToast(msg) {
+  var t=g('q-toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
 }
 
-function poll() {
-  if (!window.storage) { updateDash(); return; }
-  window.storage.list(PREFIX, true).then(function(listed) {
-    if (!listed || !listed.keys || listed.keys.length === 0) { updateDash(); return; }
-    var jobs = listed.keys.map(function(key) {
-      return window.storage.get(key, true).then(function(r) {
-        try { return (r && r.value) ? Object.assign({key:key}, JSON.parse(r.value)) : null; }
-        catch(e) { return null; }
-      }).catch(function() { return null; });
-    });
-    Promise.all(jobs).then(function(arr) {
-      allResults = arr.filter(function(x){ return x!==null; }).sort(function(a,b){ return b.ts-a.ts; });
-      updateDash();
-    });
-  }).catch(function() { updateDash(); });
-}
-
-function updateDash() {
-  var n = allResults.length;
-  g('d-total').textContent = String(n);
-  if (n === 0) return;
-
-  var sum = 0;
-  allResults.forEach(function(r){ sum += r.total; });
-  var avg = sum / n;
-
-  g('d-avg').textContent = String(Math.round(avg*10)/10);
-  g('d-m-fill').style.strokeDashoffset = String(314.2*(1-avg/25));
-  var at = tierFor(Math.round(avg));
-  g('d-avg-tier').textContent = at.emoji + ' ' + at.grade;
-  g('d-avg-tier').style.color = at.color;
-  g('d-idx').textContent = String(Math.round(avg/25*100));
-
-  var counts = {};
-  TIERS.forEach(function(t){ counts[t.grade]=0; });
-  allResults.forEach(function(r){ var t=tierFor(r.total); counts[t.grade]++; });
-  var rr = g('d-ranks');
-  rr.innerHTML = '';
-  TIERS.slice().reverse().forEach(function(t) {
-    var cnt = counts[t.grade]||0;
-    var pct = n ? cnt/n*100 : 0;
-    var row = document.createElement('div');
-    row.className = 'd-rank-row';
-    row.innerHTML = '<span class="d-rank-emoji">'+t.emoji+'</span>'
-                  + '<span class="d-rank-name" style="color:'+t.color+'">'+t.grade+'</span>'
-                  + '<div class="d-rank-trk"><div class="d-rank-fill" style="width:'+pct+'%;background:'+t.color+'"></div></div>'
-                  + '<span class="d-rank-cnt" style="color:'+t.color+'">'+cnt+'</span>';
-    rr.appendChild(row);
-  });
-
-  var buckets = BAR_RANGES.map(function(range){
-    return allResults.filter(function(r){ return r.total>=range[0]&&r.total<=range[1]; }).length;
-  });
-  var maxB = 1;
-  buckets.forEach(function(v){ if(v>maxB) maxB=v; });
-  var bc = g('d-barchart');
-  bc.innerHTML = '';
-  buckets.forEach(function(cnt,i) {
-    var hp = Math.max(3, Math.round(cnt/maxB*100));
-    var col = document.createElement('div');
-    col.className = 'd-bar-col';
-    col.innerHTML = '<div class="d-bar-cnt">'+(cnt||'')+'</div>'
-                  + '<div class="d-bar-body" style="height:'+hp+'%;background:'+BAR_COLORS[i]+';opacity:.85"></div>'
-                  + '<div class="d-bar-xl">'+BAR_LABELS[i]+'</div>';
-    bc.appendChild(col);
-  });
-
-  var dimDefs = [
-    {label:'생산성<br>인식',key:'s1',color:'#E8572A'},
-    {label:'활용<br>빈도',  key:'s2',color:'#2A7AE8'},
-    {label:'활용<br>다양성',key:'s3',color:'#27AE60'},
-    {label:'자기<br>역량',  key:'s4',color:'#9B59B6'},
-    {label:'보안<br>인식',  key:'s5',color:'#E84E4E'}
-  ];
-  var db = g('d-dims');
-  db.innerHTML = '';
-  dimDefs.forEach(function(d) {
-    var dSum=0; allResults.forEach(function(r){ dSum+=(r[d.key]||0); });
-    var dAvg=dSum/n;
-    var row=document.createElement('div'); row.className='d-dim-row';
-    row.innerHTML='<div class="d-dim-lbl">'+d.label+'</div>'
-                 +'<div class="d-dim-trk"><div class="d-dim-fill" style="width:'+Math.round(dAvg/5*100)+'%;background:'+d.color+'"></div></div>'
-                 +'<div class="d-dim-val" style="color:'+d.color+'">'+(Math.round(dAvg*10)/10)+'</div>';
-    db.appendChild(row);
-  });
-
-  var rf = g('d-feed');
-  rf.innerHTML = '';
-  allResults.slice(0,5).forEach(function(r) {
-    var t=tierFor(r.total);
-    var ago=Math.round((Date.now()-r.ts)/1000);
-    var aStr=ago<60?ago+'초 전':Math.round(ago/60)+'분 전';
-    var item=document.createElement('div'); item.className='d-fi';
-    item.innerHTML='<span class="fi-e">'+t.emoji+'</span>'
-                  +'<span class="fi-r" style="color:'+t.color+'">'+t.grade+'</span>'
-                  +'<span class="fi-s">'+r.total+'점</span>'
-                  +'<span class="fi-t">'+aStr+'</span>';
-    rf.appendChild(item);
-  });
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 6. 진입점 — 라우팅 & 이벤트 연결
-//    스크립트가 </body> 바로 앞에 있어
-//    이 시점엔 모든 DOM이 이미 존재함
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-var MODE = new URLSearchParams(location.search).get('mode');
-
-if (MODE === 'dashboard') {
-  g('dash-app').style.display = 'block';
-  drawQR();
-  poll();
-  var cd = 5;
-  setInterval(function() {
-    cd--;
-    g('d-cd-num').textContent = String(cd);
-    if (cd <= 0) { cd = 5; poll(); }
-  }, 1000);
-
-} else {
-  g('quiz-app').style.display = 'block';
-  g('q-prev').addEventListener('click', function() { if (cur > 0) { cur--; renderQ(); } });
-  g('q-next').addEventListener('click', goNext);
-  g('r-submit').addEventListener('click', doSubmit);
-  renderQ();   // ← 여기서 최초 렌더. 이 시점에 QUESTIONS·cur 모두 이미 선언돼 있음
-}
-
+g('q-prev').addEventListener('click',function(){if(cur>0){cur--;renderQ();}});
+g('q-next').addEventListener('click',goNext);
+g('r-submit').addEventListener('click',doSubmit);
+renderQ();
 </script>
 </body>
 </html>
