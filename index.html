@@ -237,7 +237,7 @@ function doShake() {
 function calcScores() {
   var s1=ANS.q1!==null?ANS.q1:0;
   var s2=ANS.q2!==null?QUESTIONS[1].options[ANS.q2].score:0;
-  var s3=Math.min(5,Math.round(ANS.q3.length/8*5*10)/10);
+  var s3=ANS.q3.length===0 ? 2 : Math.min(5, 2 + Math.round(ANS.q3.length/8*3*10)/10);
   var s4=ANS.q4!==null?QUESTIONS[3].options[ANS.q4].score:0;
   var s5=ANS.q5!==null?ANS.q5:0;
   return {s1:s1,s2:s2,s3:s3,s4:s4,s5:s5,total:s1+s2+s3+s4+s5};
@@ -268,11 +268,10 @@ function showResult() {
 function doSubmit() {
   var r=window._saved; if(!r) return;
   var btn=g('r-submit'); btn.textContent='⏳ 제출 중...'; btn.disabled=true;
-  var params = new URLSearchParams();
-  params.append('total', r.total); params.append('tier', r.tier); params.append('emoji', r.emoji);
-  params.append('s1', r.s1); params.append('s2', r.s2); params.append('s3', r.s3);
-  params.append('s4', r.s4); params.append('s5', r.s5);
-  fetch(SCRIPT_URL, {method:'POST', body:params, headers:{'Content-Type':'application/x-www-form-urlencoded'}})
+  var formData=new FormData();
+  formData.append('total',r.total); formData.append('tier',r.tier); formData.append('emoji',r.emoji);
+  formData.append('s1',r.s1); formData.append('s2',r.s2); formData.append('s3',r.s3); formData.append('s4',r.s4); formData.append('s5',r.s5);
+  fetch(SCRIPT_URL,{method:'POST',body:formData})
     .then(function(){ showToast('✅ 결과가 제출되었습니다!'); btn.textContent='✅ 제출 완료!'; })
     .catch(function(){ showToast('✅ 제출되었습니다!'); btn.textContent='✅ 제출 완료!'; });
 }
