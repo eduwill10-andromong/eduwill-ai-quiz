@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>에듀윌 AI 리터러시 대시보드</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Gmarket+Sans:wght@300;500;700&family=Noto+Sans+KR:wght@400;700;900&display=swap');
+:root{--bg:#09090F;--card:#12121C;--border:#1E1E30;--text:#F0F0FA;--muted:#4A4A6A;--accent:#E8572A;--blue:#2A7AE8;--green:#27AE60;--purple:#9B59B6;--amber:#F59E0B;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);width:100vw;height:100vh;overflow:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:56px 56px;opacity:.5;}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 10% 50%,#E8572A18 0%,transparent 50%),radial-gradient(ellipse at 90% 20%,#2A7AE810 0%,transparent 50%),radial-gradient(ellipse at 50% 90%,#9B59B610 0%,transparent 50%);}
+.layout{position:relative;z-index:1;display:grid;grid-template-rows:70px 1fr 110px;height:100vh;padding:12px 18px;gap:10px;}
+.topbar{display:flex;align-items:center;justify-content:space-between;}
+.brand{display:flex;align-items:center;gap:14px;}
+.brand-logo{background:var(--accent);color:#fff;font-family:'Gmarket Sans',sans-serif;font-size:14px;font-weight:700;padding:7px 14px;border-radius:6px;letter-spacing:1px;}
+.brand-title{font-family:'Gmarket Sans',sans-serif;font-size:20px;font-weight:700;}
+.brand-title em{font-style:normal;color:var(--accent);}
+.topbar-right{display:flex;align-items:center;gap:20px;}
+.live-badge{display:flex;align-items:center;gap:8px;background:#EF444415;border:1px solid #EF444430;border-radius:100px;padding:7px 18px;font-size:12px;font-weight:700;color:#EF4444;letter-spacing:2px;}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#EF4444;animation:livepulse 1.5s infinite;}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.refresh-info{font-size:12px;color:var(--muted);text-align:right;line-height:1.6;}
+.refresh-info strong{font-family:'Gmarket Sans',sans-serif;font-size:16px;color:var(--purple);}
+.main{display:grid;grid-template-columns:200px 1fr 1fr 200px;grid-template-rows:1fr 1fr;gap:10px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 18px;position:relative;overflow:hidden;}
+.card-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0;}
+.card-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;}
+.stat-big{font-family:'Gmarket Sans',sans-serif;font-size:clamp(36px,4vw,58px);font-weight:700;line-height:1;margin-bottom:4px;}
+.stat-sub{font-size:12px;color:var(--muted);}
+.row2{grid-row:span 2;}
+.col2{grid-column:span 2;}
+.meter-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(100% - 30px);gap:10px;}
+.meter{position:relative;width:120px;height:120px;}
+.meter svg{width:100%;height:100%;transform:rotate(-90deg);}
+.m-track{fill:none;stroke:var(--border);stroke-width:11;}
+.m-fill{fill:none;stroke-width:11;stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:339.3;transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1);}
+.meter-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.meter-val{font-family:'Gmarket Sans',sans-serif;font-size:26px;font-weight:700;line-height:1;}
+.meter-max{font-size:11px;color:var(--muted);}
+.meter-tier{font-size:13px;font-weight:700;text-align:center;}
+.rank-rows{display:flex;flex-direction:column;gap:9px;height:calc(100% - 30px);justify-content:space-evenly;}
+.rank-row{display:flex;align-items:center;gap:8px;}
+.rank-emoji{font-size:18px;width:26px;text-align:center;flex-shrink:0;}
+.rank-name{font-size:12px;font-weight:700;min-width:72px;flex-shrink:0;}
+.rank-bar-wrap{flex:1;height:8px;background:var(--border);border-radius:99px;overflow:hidden;}
+.rank-bar-fill{height:100%;border-radius:99px;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
+.rank-count{font-family:'Gmarket Sans',sans-serif;font-size:14px;min-width:24px;text-align:right;}
+.histogram{display:flex;align-items:flex-end;gap:6px;height:calc(100% - 30px);padding-bottom:20px;}
+.histo-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;}
+.histo-cnt{font-size:11px;font-weight:700;color:var(--muted);}
+.histo-bar{width:100%;border-radius:5px 5px 0 0;min-height:3px;transition:height 1.4s cubic-bezier(.4,0,.2,1);}
+.histo-lbl{font-size:10px;color:var(--muted);white-space:nowrap;}
+.radar-wrap{display:flex;flex-direction:column;gap:10px;height:calc(100% - 30px);justify-content:space-evenly;}
+.dim-row{display:flex;align-items:center;gap:10px;}
+.dim-name{font-size:11px;color:var(--muted);width:64px;flex-shrink:0;line-height:1.3;}
+.dim-bar-wrap{flex:1;height:7px;background:var(--border);border-radius:99px;overflow:hidden;}
+.dim-bar-fill{height:100%;border-radius:99px;transition:width 1.4s cubic-bezier(.4,0,.2,1) .2s;}
+.dim-val{font-family:'Gmarket Sans',sans-serif;font-size:13px;font-weight:700;min-width:28px;text-align:right;}
+.feed-list{display:flex;flex-direction:column;gap:7px;height:calc(100% - 30px);overflow:hidden;}
+.feed-item{display:flex;align-items:center;gap:9px;background:#ffffff08;border-radius:10px;padding:9px 12px;flex-shrink:0;}
+.fi-emoji{font-size:18px;}
+.fi-grade{font-size:13px;font-weight:700;flex:1;}
+.fi-score{font-family:'Gmarket Sans',sans-serif;font-size:13px;color:var(--muted);}
+.fi-time{font-size:11px;color:var(--muted);}
+.bottombar{display:flex;align-items:center;gap:12px;}
+.qr-section{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 20px;flex-shrink:0;}
+.qr-info h3{font-family:'Gmarket Sans',sans-serif;font-size:14px;font-weight:700;margin-bottom:5px;}
+.qr-info p{font-size:12px;color:var(--muted);line-height:1.5;}
+.bottom-mid{flex:1;display:flex;gap:10px;}
+.b-card{flex:1;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 16px;min-width:0;}
+.idx-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px 28px;text-align:center;flex-shrink:0;}
+.idx-label{font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.idx-value{font-family:'Gmarket Sans',sans-serif;font-size:42px;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.idx-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+.empty{display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;flex-direction:column;gap:8px;}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-logo">EDUWILL</div>
+      <div class="brand-title">4월 타운홀 · <em>AI 리터러시</em> 현황판</div>
+    </div>
+    <div class="topbar-right">
+      <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+      <div class="refresh-info">자동 새로고침<br><strong id="cd">10</strong>초 후</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="card">
+      <div class="card-accent" style="background:linear-gradient(90deg,#E8572A,#f87171)"></div>
+      <div class="card-label">총 참여자</div>
+      <div class="stat-big" id="stat-total" style="color:#E8572A">-</div>
+      <div class="stat-sub">명이 참여 완료</div>
+    </div>
+    <div class="card col2 row2">
+      <div class="card-accent" style="background:linear-gradient(90deg,#9B59B6,#c084fc)"></div>
+      <div class="card-label">계급 분포</div>
+      <div class="rank-rows" id="rank-rows"><div class="empty">⏳ 참여자 대기 중</div></div>
+    </div>
+    <div class="card row2">
+      <div class="card-accent" style="background:linear-gradient(90deg,#2A7AE8,#60a5fa)"></div>
+      <div class="card-label">최근 참여</div>
+      <div class="feed-list" id="feed-list"><div class="empty">⏳ 대기 중</div></div>
+    </div>
+    <div class="card">
+      <div class="card-accent" style="background:linear-gradient(90deg,#F59E0B,#fcd34d)"></div>
+      <div class="card-label">전사 평균 점수</div>
+      <div class="meter-wrap">
+        <div class="meter">
+          <svg viewBox="0 0 120 120">
+            <defs><linearGradient id="mg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#E8572A"/><stop offset="100%" stop-color="#9B59B6"/></linearGradient></defs>
+            <circle class="m-track" cx="60" cy="60" r="54"/>
+            <circle class="m-fill" id="meter-fill" cx="60" cy="60" r="54" stroke="url(#mg)"/>
+          </svg>
+          <div class="meter-center">
+            <div class="meter-val" id="meter-val">-</div>
+            <div class="meter-max">/ 25</div>
+          </div>
+        </div>
+        <div class="meter-tier" id="meter-tier" style="color:#F59E0B">집계 중...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottombar">
+    <div class="qr-section">
+      <canvas id="qr-canvas" width="72" height="72"></canvas>
+      <div class="qr-info">
+        <h3>📱 지금 참여하세요!</h3>
+        <p>QR 스캔 → 퀴즈 → 제출<br>결과가 이 화면에 실시간 반영!</p>
+      </div>
+    </div>
+    <div class="bottom-mid">
+      <div class="b-card">
+        <div class="card-label">항목별 전사 평균</div>
+        <div class="radar-wrap" id="dim-bars"><div class="empty">📐 집계 중</div></div>
+      </div>
+      <div class="b-card">
+        <div class="card-label">점수대 분포</div>
+        <div class="histogram" id="histogram"><div class="empty">📊 대기 중</div></div>
+      </div>
+    </div>
+    <div class="idx-card">
+      <div class="idx-label">전사 AI 리터러시 지수</div>
+      <div class="idx-value" id="idx-value">-</div>
+      <div class="idx-sub">100점 만점 환산</div>
+    </div>
+  </div>
+</div>
+
+<script>
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDzEvzPEGcEPPhLd2HywbBatPLkMB-xvsVy_5poyGLt_hA5NnA9VDTisbPCojAlpsG/exec';
+var TIERS = [{min:0,max:7,emoji:'🪨',grade:'AI 석기인',color:'#888888'},{min:8,max:12,emoji:'🌱',grade:'AI 새싹',color:'#27AE60'},{min:13,max:17,emoji:'⚔️',grade:'AI 기사',color:'#2A7AE8'},{min:18,max:21,emoji:'🏆',grade:'AI 챔피언',color:'#9B59B6'},{min:22,max:25,emoji:'👑',grade:'AI 황제',color:'#E8572A'}];
+var BAR_COLORS = ['#888','#27AE60','#27AE60','#2A7AE8','#9B59B6','#E8572A'];
+var BAR_LABELS = ['0-4','5-9','10-14','15-19','20-21','22-25'];
+var BAR_RANGES = [[0,4],[5,9],[10,14],[15,19],[20,21],[22,25]];
+var DIM_DEFS = [{label:'생산성<br>인식',key:'s1',color:'#E8572A'},{label:'활용<br>빈도',key:'s2',color:'#2A7AE8'},{label:'활용<br>다양성',key:'s3',color:'#27AE60'},{label:'자기<br>역량',key:'s4',color:'#9B59B6'},{label:'보안<br>인식',key:'s5',color:'#E84E4E'}];
+
+function g(id){return document.getElementById(id);}
+function tierFor(s){for(var i=0;i<TIERS.length;i++)if(s>=TIERS[i].min&&s<=TIERS[i].max)return TIERS[i];return TIERS[0];}
+
+function drawQR(){
+  var c=g('qr-canvas');if(!c)return;
+  var ctx=c.getContext('2d'),S=72;
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,S,S);
+  function f(x,y,s){ctx.fillStyle='#09090F';ctx.fillRect(x,y,s,s);ctx.fillStyle='#fff';ctx.fillRect(x+2,y+2,s-4,s-4);ctx.fillStyle='#09090F';ctx.fillRect(x+4,y+4,s-8,s-8);}
+  f(4,4,16);f(S-20,4,16);f(4,S-20,16);
+  for(var y=0;y<S;y+=4)for(var x=0;x<S;x+=4){
+    if(x<24&&y<24||x>S-24&&y<24||x<24&&y>S-24)continue;
+    if((0x5E^(x*37)^(y*13))%3===0){ctx.fillStyle='#09090F';ctx.fillRect(x+1,y+1,2,2);}
+  }
+}
+
+var allData=[];
+function fetchData(){
+  fetch(SCRIPT_URL)
+    .then(function(r){return r.json();})
+    .then(function(d){allData=Array.isArray(d)?d:[];updateDash();})
+    .catch(function(){});
+}
+
+function updateDash(){
+  var n=allData.length;
+  g('stat-total').textContent=String(n);
+  if(n===0)return;
+
+  var sum=0;allData.forEach(function(r){sum+=Number(r.total||0);});
+  var avg=sum/n,avgR=Math.round(avg*10)/10;
+  g('meter-val').textContent=String(avgR);
+  g('meter-fill').style.strokeDashoffset=String(339.3*(1-avg/25));
+  var at=tierFor(Math.round(avg));
+  g('meter-tier').textContent=at.emoji+' '+at.grade;
+  g('meter-tier').style.color=at.color;
+  g('idx-value').textContent=String(Math.round(avg/25*100));
+
+  var counts={};TIERS.forEach(function(t){counts[t.grade]=0;});
+  allData.forEach(function(r){tierFor(Number(r.total||0));var t=tierFor(Number(r.total||0));counts[t.grade]++;});
+  var rr=g('rank-rows');rr.innerHTML='';
+  TIERS.slice().reverse().forEach(function(t){
+    var cnt=counts[t.grade]||0,pct=n?cnt/n*100:0;
+    var row=document.createElement('div');row.className='rank-row';
+    row.innerHTML='<span class="rank-emoji">'+t.emoji+'</span>'
+      +'<span class="rank-name" style="color:'+t.color+'">'+t.grade+'</span>'
+      +'<div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:'+pct+'%;background:'+t.color+'"></div></div>'
+      +'<span class="rank-count" style="color:'+t.color+'">'+cnt+'</span>';
+    rr.appendChild(row);
+  });
+
+  var buckets=BAR_RANGES.map(function(r){return allData.filter(function(d){var v=Number(d.total||0);return v>=r[0]&&v<=r[1];}).length;});
+  var maxB=1;buckets.forEach(function(v){if(v>maxB)maxB=v;});
+  var histo=g('histogram');histo.innerHTML='';
+  buckets.forEach(function(cnt,i){
+    var hp=Math.max(4,Math.round(cnt/maxB*100));
+    var col=document.createElement('div');col.className='histo-col';
+    col.innerHTML='<div class="histo-cnt">'+(cnt||'')+'</div>'
+      +'<div class="histo-bar" style="height:'+hp+'%;background:'+BAR_COLORS[i]+';opacity:.9"></div>'
+      +'<div class="histo-lbl">'+BAR_LABELS[i]+'</div>';
+    histo.appendChild(col);
+  });
+
+  var db=g('dim-bars');db.innerHTML='';
+  DIM_DEFS.forEach(function(d){
+    var dSum=0;allData.forEach(function(r){dSum+=Number(r[d.key]||0);});
+    var dAvg=dSum/n;
+    var row=document.createElement('div');row.className='dim-row';
+    row.innerHTML='<div class="dim-name">'+d.label+'</div>'
+      +'<div class="dim-bar-wrap"><div class="dim-bar-fill" style="width:'+Math.round(dAvg/5*100)+'%;background:'+d.color+'"></div></div>'
+      +'<div class="dim-val" style="color:'+d.color+'">'+(Math.round(dAvg*10)/10)+'</div>';
+    db.appendChild(row);
+  });
+
+  var sorted=allData.slice().sort(function(a,b){return new Date(b.timestamp)-new Date(a.timestamp);});
+  var fl=g('feed-list');fl.innerHTML='';
+  sorted.slice(0,5).forEach(function(r){
+    var t=tierFor(Number(r.total||0));
+    var diff=Math.round((new Date()-new Date(r.timestamp))/1000);
+    var aStr=isNaN(diff)?'방금':diff<60?diff+'초 전':Math.round(diff/60)+'분 전';
+    var item=document.createElement('div');item.className='feed-item';
+    item.innerHTML='<span class="fi-emoji">'+t.emoji+'</span>'
+      +'<span class="fi-grade" style="color:'+t.color+'">'+t.grade+'</span>'
+      +'<span class="fi-score">'+r.total+'점</span>'
+      +'<span class="fi-time">'+aStr+'</span>';
+    fl.appendChild(item);
+  });
+}
+
+var cd=10;
+setInterval(function(){cd--;g('cd').textContent=String(cd);if(cd<=0){cd=10;fetchData();}},1000);
+drawQR();
+fetchData();
+</script>
+</body>
+</html>
